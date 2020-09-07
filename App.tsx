@@ -9,7 +9,7 @@ import ListScreen from './screens/List';
 
 export type RootStackParamList = {
   List: undefined;
-  Add: undefined;
+  Add: { addEntry: (entry: object) => void };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -22,12 +22,12 @@ const App: FC = () => {
         initialRouteName="List"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#4A5568',
+            backgroundColor: '#4A5568'
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+            fontWeight: 'bold'
+          }
         }}>
         <Stack.Screen
           name="List"

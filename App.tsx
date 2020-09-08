@@ -22,7 +22,7 @@ const App: FC = () => {
         initialRouteName="List"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#4A5568'
+            backgroundColor: '#2d3748'
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

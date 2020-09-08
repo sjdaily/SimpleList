@@ -8,8 +8,8 @@ import AddEntryScreen from './screens/AddEntry';
 import ListScreen from './screens/List';
 
 export type RootStackParamList = {
-  List: undefined;
-  Add: { addEntry: (entry: object) => void };
+  List: { newEntry: boolean };
+  Add: { entries: object[] };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

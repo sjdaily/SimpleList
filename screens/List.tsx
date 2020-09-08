@@ -1,6 +1,15 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, Button, FlatList, View, Text } from 'react-native';
+import {
+  SafeAreaView,
+  Button,
+  FlatList,
+  ListRenderItem,
+  View,
+  Text
+} from 'react-native';
+import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
@@ -10,69 +19,58 @@ import {
 import tailwind from 'tailwind-rn';
 
 import { RootStackParamList } from '../App';
-import AsyncStorage from '@react-native-community/async-storage';
 
+type ListScreenRouteProp = RouteProp<RootStackParamList, 'List'>;
 type ListScreenNavigationProp = StackNavigationProp<RootStackParamList, 'List'>;
 
 type Props = {
+  route: ListScreenRouteProp;
   navigation: ListScreenNavigationProp;
 };
 
-const ListScreen: FC<Props> = ({ navigation }) => {
+type Entry = {
+  label: string;
+  type: string | undefined;
+  note: string | undefined;
+  rating: string | undefined;
+};
+
+const ListScreen: FC<Props> = ({ route, navigation }) => {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchEntries = useCallback(async () => {
     try {
-      const value = await AsyncStorage.getItem('entries');
-      if (value !== null) {
-        return JSON.parse(value);
-      }
+      return await AsyncStorage.getItem('entries');
     } catch (e) {
       setError(e);
     }
   }, []);
-
-  const storeEntries = useCallback(async (updatedEntries) => {
-    try {
-      const jsonEntries = JSON.stringify(updatedEntries);
-      await AsyncStorage.setItem('entries', jsonEntries);
-    } catch (e) {
-      setError(e);
-    }
-  }, []);
-
-  const addEntry = useCallback(
-    (entry) => {
-      setLoading(true);
-      setEntries([...entries, entry]);
-      storeEntries(entries).then(() => {
-        setLoading(false);
-      });
-    },
-    [entries, storeEntries]
-  );
 
   useEffect(() => {
     setLoading(true);
     fetchEntries().then((results) => {
-      setEntries(results);
+      if (results !== null) {
+        setEntries(JSON.parse(results));
+      }
       setLoading(false);
     });
-  }, [fetchEntries]);
+  }, [fetchEntries, route.params]);
 
   const displayWelcome = !loading && entries?.length === 0;
   const hasEntries = !loading && entries?.length > 0;
 
-  const renderEntry = ({ entry }) => (
-    <View>
-      <Text>{entry.label}</Text>
-      <Text>{entry.type}</Text>
-      <Text>{entry.note}</Text>
-      <Text>{entry.rating}</Text>
-    </View>
-  );
+  const renderItem: ListRenderItem<Entry> = ({ item }) => {
+    return (
+      <View>
+        <Text>{item.label}</Text>
+        <Text>{item.type}</Text>
+        <Text>{item.note}</Text>
+        <Text>{item.rating}</Text>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={tailwind('h-full bg-gray-500')}>
@@ -96,7 +94,11 @@ const ListScreen: FC<Props> = ({ navigation }) => {
           </Text>
           <Button
             title="Add An Entry"
-            onPress={() => navigation.navigate('Add')}
+            onPress={() =>
+              navigation.navigate('Add', {
+                entries: entries
+              })
+            }
           />
         </View>
       )}
@@ -108,15 +110,15 @@ const ListScreen: FC<Props> = ({ navigation }) => {
               title="Add An Entry"
               onPress={() =>
                 navigation.navigate('Add', {
-                  addEntry: addEntry
+                  entries: entries
                 })
               }
             />
           </View>
           <FlatList
             data={entries}
-            renderItem={renderEntry}
-            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.label}
           />
         </>
       )}

@@ -29,10 +29,10 @@ type Props = {
 };
 
 type Entry = {
-  label: string;
-  type: string | undefined;
-  note: string | undefined;
-  rating: string | undefined;
+  label?: string;
+  type: string;
+  note?: string;
+  rating: string;
 };
 
 const ListScreen: FC<Props> = ({ route, navigation }) => {

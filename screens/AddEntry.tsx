@@ -152,7 +152,12 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
                 <Text style={tailwind('lowercase')}>{type}:</Text>
               </Text>
               <TextInput
-                onChangeText={(text: string) => setLabel(text)}
+                onChangeText={(text: string) => {
+                  if (text.length === 0) {
+                    text = null;
+                  }
+                  return setLabel(text);
+                }}
                 value={label}
                 maxLength={25}
                 style={tailwind(
@@ -169,7 +174,12 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
                   Would you like to add any notes?
                 </Text>
                 <TextInput
-                  onChangeText={(text: string) => setNote(text)}
+                  onChangeText={(text: string) => {
+                    if (text.length === 0) {
+                      text = null;
+                    }
+                    return setNote(text);
+                  }}
                   value={note}
                   maxLength={30}
                   style={tailwind(

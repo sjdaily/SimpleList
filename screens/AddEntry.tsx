@@ -181,7 +181,7 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
                     return setNote(text);
                   }}
                   value={note}
-                  maxLength={30}
+                  maxLength={38}
                   style={tailwind(
                     'bg-white border py-8 px-2 mt-3 text-xl rounded text-gray-800'
                   )}

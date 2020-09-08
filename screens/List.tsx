@@ -73,21 +73,27 @@ const ListScreen: FC<Props> = ({ route, navigation }) => {
     return (
       <View
         style={tailwind(
-          'flex-row mx-2 mb-2 py-3 px-2 bg-gray-100 border-2 border-gray-400 rounded'
+          'flex-row items-center justify-between mx-2 mb-2 py-3 px-2 bg-gray-100 border-2 border-gray-400 rounded'
         )}>
-        <View style={tailwind('mr-3')}>
+        <View style={tailwind('flex-row')}>
+          <View style={tailwind('mr-3')}>
+            <FontAwesomeIcon
+              icon={matchingType.icon}
+              color="#2d3748"
+              size={36}
+            />
+          </View>
+          <View style={tailwind('pr-2')}>
+            <Text style={tailwind('font-medium text-xl')}>{item.label}</Text>
+            <Text>{item.note}</Text>
+          </View>
+        </View>
+        <View style={tailwind('ml-2')}>
           <FontAwesomeIcon
             icon={matchingRating.icon}
-            color="#2d3748"
-            size={36}
+            color={matchingRating.color}
+            size={30}
           />
-        </View>
-        <View style={tailwind('mr-3')}>
-          <FontAwesomeIcon icon={matchingType.icon} color="#2d3748" size={36} />
-        </View>
-        <View style={tailwind('pr-2')}>
-          <Text style={tailwind('font-medium text-xl')}>{item.label}</Text>
-          <Text>{item.note}</Text>
         </View>
       </View>
     );
@@ -113,7 +119,7 @@ const ListScreen: FC<Props> = ({ route, navigation }) => {
               style={tailwind(
                 'flex-row items-center mt-4 py-8 px-20 bg-gray-100 border border-2 border-gray-600 mr-2 rounded'
               )}>
-              <FontAwesomeIcon icon={faPlusSquare} size={36} color="#718096" />
+              <FontAwesomeIcon icon={faPlusSquare} size={36} color="#2c7a7b" />
               <Text style={tailwind('text-gray-600 font-medium text-2xl ml-2')}>
                 Add An Entry
               </Text>
@@ -131,11 +137,11 @@ const ListScreen: FC<Props> = ({ route, navigation }) => {
                   entries: entries
                 })
               }>
-              <View style={tailwind('mr-2 p-1 rounded')}>
+              <View style={tailwind('mr-1 p-1 rounded')}>
                 <FontAwesomeIcon
                   icon={faPlusSquare}
                   size={36}
-                  color="#718096"
+                  color="#2c7a7b"
                 />
               </View>
             </TouchableHighlight>

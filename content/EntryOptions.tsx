@@ -31,18 +31,22 @@ export const typeOptions = [
 export const ratingOptions = [
   {
     ratingLabel: 'Awful',
-    icon: faSadTear
+    icon: faSadTear,
+    color: '#81e6d9'
   },
   {
     ratingLabel: 'Meh',
-    icon: faMeh
+    icon: faMeh,
+    color: '#38b2ac'
   },
   {
     ratingLabel: 'Decent',
-    icon: faSmile
+    icon: faSmile,
+    color: '#2c7a7b'
   },
   {
     ratingLabel: 'Amazing',
-    icon: faGrinHearts
+    icon: faGrinHearts,
+    color: '#234e52'
   }
 ];

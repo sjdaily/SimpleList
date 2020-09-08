@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
   SafeAreaView,
-  Button,
   FlatList,
   ListRenderItem,
   View,
@@ -19,6 +18,7 @@ import tailwind from 'tailwind-rn';
 import { RootStackParamList } from '../App';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import { typeOptions, ratingOptions } from '../content/EntryOptions';
 
 type ListScreenRouteProp = RouteProp<RootStackParamList, 'List'>;
 type ListScreenNavigationProp = StackNavigationProp<RootStackParamList, 'List'>;
@@ -62,37 +62,63 @@ const ListScreen: FC<Props> = ({ route, navigation }) => {
   const hasEntries = !loading && entries?.length > 0;
 
   const renderItem: ListRenderItem<Entry> = ({ item }) => {
+    const matchingType = typeOptions.find((option) => {
+      return option.typeLabel === item.type;
+    });
+
+    const matchingRating = ratingOptions.find((option) => {
+      return option.ratingLabel === item.rating;
+    });
+
     return (
       <View
         style={tailwind(
-          'flex-row justify-between m-2 py-3 px-2 border-2 border-gray-400 rounded'
+          'flex-row mx-2 mb-2 py-3 px-2 bg-gray-100 border-2 border-gray-400 rounded'
         )}>
-        <Text>{item.label}</Text>
-        <Text>{item.type}</Text>
-        <Text>{item.note}</Text>
-        <Text>{item.rating}</Text>
+        <View style={tailwind('mr-3')}>
+          <FontAwesomeIcon
+            icon={matchingRating.icon}
+            color="#2d3748"
+            size={36}
+          />
+        </View>
+        <View style={tailwind('mr-3')}>
+          <FontAwesomeIcon icon={matchingType.icon} color="#2d3748" size={36} />
+        </View>
+        <View style={tailwind('pr-2')}>
+          <Text style={tailwind('font-medium text-xl')}>{item.label}</Text>
+          <Text>{item.note}</Text>
+        </View>
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={tailwind('h-full bg-gray-500')}>
+    <SafeAreaView style={tailwind('h-full bg-gray-200')}>
       {loading && <Loading />}
       {error && <Error />}
 
       {displayWelcome && (
         <View style={tailwind('items-center pt-20')}>
-          <Text style={tailwind('text-xl text-gray-700 font-medium')}>
+          <Text style={tailwind('text-xl text-gray-800 font-medium')}>
             Hello! Add your first entry to get started.
           </Text>
-          <Button
-            title="Add An Entry"
+          <TouchableHighlight
             onPress={() =>
               navigation.navigate('Add', {
                 entries: entries
               })
-            }
-          />
+            }>
+            <View
+              style={tailwind(
+                'flex-row items-center mt-4 py-8 px-20 bg-gray-100 border border-2 border-gray-600 mr-2 rounded'
+              )}>
+              <FontAwesomeIcon icon={faPlusSquare} size={36} color="#718096" />
+              <Text style={tailwind('text-gray-600 font-medium text-2xl ml-2')}>
+                Add An Entry
+              </Text>
+            </View>
+          </TouchableHighlight>
         </View>
       )}
 
@@ -105,8 +131,12 @@ const ListScreen: FC<Props> = ({ route, navigation }) => {
                   entries: entries
                 })
               }>
-              <View style={tailwind('bg-gray-400 mr-2 p-1 rounded')}>
-                <FontAwesomeIcon icon={faPlusSquare} size={32} />
+              <View style={tailwind('mr-2 p-1 rounded')}>
+                <FontAwesomeIcon
+                  icon={faPlusSquare}
+                  size={36}
+                  color="#718096"
+                />
               </View>
             </TouchableHighlight>
           </View>

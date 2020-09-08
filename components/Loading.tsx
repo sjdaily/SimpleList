@@ -1,14 +1,11 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { View, ActivityIndicator } from 'react-native';
 import tailwind from 'tailwind-rn';
 
 const Loading: FC = () => {
   return (
-    <View style={tailwind('items-center')}>
-      <FontAwesomeIcon icon={faSpinner} />
+    <View style={tailwind('items-center mt-16')}>
+      <ActivityIndicator size="large" color="#2d3748" />
     </View>
   );
 };

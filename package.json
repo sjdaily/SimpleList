@@ -59,7 +59,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,tsx,ts}": [
-      "tslint --fix -p .",
       "prettier --write"
     ],
     "*.scss": [

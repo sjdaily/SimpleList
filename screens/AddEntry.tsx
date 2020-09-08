@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 import {
   SafeAreaView,
-  Button,
   View,
   TextInput,
   Text,
@@ -13,21 +12,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import {
-  faCookieBite,
-  faBeer,
-  faPizzaSlice,
-  faCheese,
-  faMeh,
-  faSadTear,
-  faGrinHearts,
-  faSmile
-} from '@fortawesome/free-solid-svg-icons';
 import tailwind from 'tailwind-rn';
 
 import { RootStackParamList } from '../App';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import { typeOptions, ratingOptions } from '../content/EntryOptions';
 
 type AddEntryScreenRouteProp = RouteProp<RootStackParamList, 'Add'>;
 type AddEntryScreenNavigationProp = StackNavigationProp<
@@ -51,44 +41,6 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
 
   const entries = route.params?.entries ? route.params?.entries : [];
   const displayForm = !loading && !error;
-
-  const typeOptions = [
-    {
-      typeLabel: 'Appetizer',
-      icon: faCheese
-    },
-    {
-      typeLabel: 'Drink',
-      icon: faBeer
-    },
-    {
-      typeLabel: 'Main',
-      icon: faPizzaSlice
-    },
-    {
-      typeLabel: 'Dessert',
-      icon: faCookieBite
-    }
-  ];
-
-  const ratingOptions = [
-    {
-      ratingLabel: 'Awful',
-      icon: faSadTear
-    },
-    {
-      ratingLabel: 'Meh',
-      icon: faMeh
-    },
-    {
-      ratingLabel: 'Decent',
-      icon: faSmile
-    },
-    {
-      ratingLabel: 'Amazing',
-      icon: faGrinHearts
-    }
-  ];
 
   const storeEntries = useCallback(async (updatedEntries) => {
     try {
@@ -126,10 +78,10 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
       <TouchableHighlight onPress={() => setType(typeLabel)} key={index}>
         <View
           style={tailwind(
-            'items-center border rounded mx-10 mb-5 py-5 bg-gray-300'
+            'items-center border border-gray-400 rounded mx-2 mb-2 py-8 bg-gray-100'
           )}>
           <FontAwesomeIcon icon={icon} color="#2d3748" size={40} />
-          <Text style={tailwind('text-lg pt-3 text-gray-800')}>
+          <Text style={tailwind('text-lg font-medium pt-3 text-gray-800')}>
             {typeLabel}
           </Text>
         </View>
@@ -146,17 +98,19 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
       <TouchableHighlight onPress={() => setRating(ratingLabel)} key={index}>
         <View
           style={tailwind(
-            'items-center border rounded mx-10 mb-5 py-5 bg-gray-300'
+            'items-center border border-gray-400 rounded mx-2 mb-2 py-8 bg-gray-100'
           )}>
           <FontAwesomeIcon icon={icon} color="#2d3748" size={40} />
-          <Text style={tailwind('text-lg text-gray-800')}>{ratingLabel}</Text>
+          <Text style={tailwind('text-lg font-medium pt-3 text-gray-800')}>
+            {ratingLabel}
+          </Text>
         </View>
       </TouchableHighlight>
     );
   };
 
   return (
-    <SafeAreaView style={tailwind('h-full bg-gray-500')}>
+    <SafeAreaView style={tailwind('h-full bg-gray-200')}>
       {loading && <Loading />}
       {error && <Error />}
 
@@ -164,7 +118,8 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
         <View style={tailwind('pt-10')}>
           {!type && (
             <>
-              <Text style={tailwind('text-xl pl-10 pb-3 text-gray-800')}>
+              <Text
+                style={tailwind('text-xl pl-2 pb-3 text-gray-800 font-medium')}>
                 What did you have?
               </Text>
               <View style={tailwind('')}>
@@ -177,7 +132,8 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
 
           {type && !rating && (
             <>
-              <Text style={tailwind('text-xl pl-10 pb-3 text-gray-800')}>
+              <Text
+                style={tailwind('text-xl pl-2 pb-3 text-gray-800 font-medium')}>
                 How was it?
               </Text>
               <View>
@@ -190,16 +146,17 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
 
           {type && rating && (
             <>
-              <Text style={tailwind('text-xl pl-10 pb-3 text-gray-800')}>
+              <Text
+                style={tailwind('text-xl pl-2 pb-3 text-gray-800 font-medium')}>
                 Add a name for your{' '}
                 <Text style={tailwind('lowercase')}>{type}:</Text>
               </Text>
               <TextInput
                 onChangeText={(text: string) => setLabel(text)}
                 value={label}
-                maxLength={20}
+                maxLength={25}
                 style={tailwind(
-                  'bg-white border mx-10 py-8 px-2 text-xl rounded text-gray-800'
+                  'bg-white border mx-2 py-8 px-2 text-xl rounded text-gray-800'
                 )}
               />
             </>
@@ -207,8 +164,8 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
 
           {type && label && rating && (
             <>
-              <View style={tailwind('mx-10 mb-10')}>
-                <Text style={tailwind('text-lg mt-8 text-gray-800')}>
+              <View style={tailwind('mx-2 my-10')}>
+                <Text style={tailwind('text-xl text-gray-800 font-medium')}>
                   Would you like to add any notes?
                 </Text>
                 <TextInput
@@ -216,12 +173,15 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
                   value={note}
                   maxLength={30}
                   style={tailwind(
-                    'bg-white border py-8 px-2 mt-4 text-xl rounded text-gray-800'
+                    'bg-white border py-8 px-2 mt-3 text-xl rounded text-gray-800'
                   )}
                 />
               </View>
               <TouchableHighlight onPress={handleSubmit}>
-                <View style={tailwind('bg-gray-800 mx-10 py-8 items-center')}>
+                <View
+                  style={tailwind(
+                    'bg-gray-800 mx-2 py-8 items-center rounded'
+                  )}>
                   <Text style={tailwind('text-gray-300 text-xl')}>
                     Add Entry
                   </Text>

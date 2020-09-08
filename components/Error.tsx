@@ -7,9 +7,11 @@ import tailwind from 'tailwind-rn';
 
 const Error: FC = () => {
   return (
-    <View style={tailwind('flex-row')}>
-      <FontAwesomeIcon icon={faExclamationTriangle} />
-      <Text style={tailwind('ml-2')}>Oops! Something went wrong...</Text>
+    <View style={tailwind('flex-row items-center justify-center mt-16')}>
+      <FontAwesomeIcon icon={faExclamationTriangle} size={32} color="#2d3748" />
+      <Text style={tailwind('ml-2 text-gray-800 font-medium text-xl')}>
+        Oops! Something went wrong...
+      </Text>
     </View>
   );
 };

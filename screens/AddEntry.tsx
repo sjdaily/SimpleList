@@ -75,7 +75,10 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
     index: number
   ) => {
     return (
-      <TouchableHighlight onPress={() => setType(typeLabel)} key={index}>
+      <TouchableHighlight
+        onPress={() => setType(typeLabel)}
+        key={index}
+        underlayColor="#cbd5e0">
         <View
           style={tailwind(
             'items-center border border-gray-400 rounded mx-2 mb-2 py-8 bg-gray-100'
@@ -95,7 +98,10 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
     index: number
   ) => {
     return (
-      <TouchableHighlight onPress={() => setRating(ratingLabel)} key={index}>
+      <TouchableHighlight
+        onPress={() => setRating(ratingLabel)}
+        key={index}
+        underlayColor="#cbd5e0">
         <View
           style={tailwind(
             'items-center border border-gray-400 rounded mx-2 mb-2 py-8 bg-gray-100'
@@ -187,7 +193,9 @@ const AddEntryScreen: FC<Props> = ({ route, navigation }) => {
                   )}
                 />
               </View>
-              <TouchableHighlight onPress={handleSubmit}>
+              <TouchableHighlight
+                onPress={handleSubmit}
+                underlayColor="#cbd5e0">
                 <View
                   style={tailwind(
                     'bg-gray-800 mx-2 py-8 items-center rounded'

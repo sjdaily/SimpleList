@@ -110,6 +110,7 @@ const ListScreen: FC<Props> = ({ route, navigation }) => {
             Hello! Add your first entry to get started.
           </Text>
           <TouchableHighlight
+            underlayColor="#cbd5e0"
             onPress={() =>
               navigation.navigate('Add', {
                 entries: entries
@@ -132,6 +133,7 @@ const ListScreen: FC<Props> = ({ route, navigation }) => {
         <>
           <View style={tailwind('items-end pt-4 pb-2')}>
             <TouchableHighlight
+              underlayColor="#cbd5e0"
               onPress={() =>
                 navigation.navigate('Add', {
                   entries: entries
